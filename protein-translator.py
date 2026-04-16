@@ -1,4 +1,3 @@
-DNA_sequence = input("Enter DNA sequence:").upper()
 allowed_chars = "ATCG"
 codon_table = {
     "AUG": "Methionine",
@@ -28,9 +27,23 @@ def is_correct(seq):
         return False
     return True
 
-if is_correct(DNA_sequence):
+def read_fasta(filename):
+    with open(filename, "r") as f:
+        lines = f.readlines()
 
-    mRNA_sequence = DNA_sequence.replace("T", "U")
+        header = lines[0].strip()
+        sequence = ""
+
+        for line in lines[1:]:
+            sequence += line.strip()
+
+        return header, sequence
+
+header, sequence = read_fasta("dna.fasta")
+
+if is_correct(sequence):
+
+    mRNA_sequence = sequence.replace("T", "U")
     print("mRNA sequence:", mRNA_sequence)
 
     amino_acids = []
